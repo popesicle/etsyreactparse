@@ -143,6 +143,11 @@ var SingleItemView = React.createClass({
 						'h4',
 						null,
 						etsyItemData.listing_id
+					),
+					React.createElement(
+						'button',
+						null,
+						'fav'
 					)
 				)
 			)
@@ -187,8 +192,8 @@ var ItemListing = React.createClass({
 
 		return React.createElement(
 			'li',
-			{ onClick: this._changeLocation },
-			React.createElement('img', { src: items.MainImage.url_570xN }),
+			null,
+			React.createElement('img', { onClick: this._changeLocation, src: items.MainImage.url_570xN }),
 			React.createElement(
 				'div',
 				{ className: 'itemInfo' },
