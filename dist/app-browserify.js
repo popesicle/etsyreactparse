@@ -113,15 +113,17 @@ var SingleItemView = React.createClass({
 		// makes the clicked item go into the parse favorites places.
 
 		var favModel = new FavoritesModel(),
-		    items = this.props.etsyItemData,
+		    items = this.props.etsyItemData.attributes.results[0],
 		    title = items.title,
 		    itemId = items.listing_id,
-		    description = items.description;
+		    description = items.description,
+		    imageData = items.MainImage.url_fullxfull;
 
 		favModel.set({
-			'title': 'test',
-			'item_id': 'test',
-			'description': 'test'
+			'title': title,
+			'item_id': itemId,
+			'description': description,
+			'MainImage': imageData
 		});
 		this.props.favoritesData.add(favModel);
 		console.log('attempting to save');
