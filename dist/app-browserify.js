@@ -109,6 +109,27 @@ var HomeView = React.createClass({
 var SingleItemView = React.createClass({
 	displayName: 'SingleItemView',
 
+	_markFavorite: function _markFavorite() {
+		// makes the clicked item go into the parse favorites places.
+
+		var favModel = new FavoritesModel(),
+		    items = this.props.etsyItemData,
+		    title = items.title,
+		    itemId = items.listing_id,
+		    description = items.description;
+
+		favModel.set({
+			'title': 'test',
+			'item_id': 'test',
+			'description': 'test'
+		});
+		this.props.favoritesData.add(favModel);
+		console.log('attempting to save');
+		favModel.save(null, { headers: favModel.parseHeaders }).then(function () {
+			alert('boyee');
+		});
+	},
+
 	render: function render() {
 		console.log('here goes your single view dag', this.props.etsyItemData.attributes.results);
 		var etsyItemData = this.props.etsyItemData.attributes.results[0];
@@ -146,8 +167,8 @@ var SingleItemView = React.createClass({
 					),
 					React.createElement(
 						'button',
-						null,
-						'fav'
+						{ onClick: this._markFavorite },
+						'Favorite this!'
 					)
 				)
 			)
@@ -157,26 +178,6 @@ var SingleItemView = React.createClass({
 
 var ItemListing = React.createClass({
 	displayName: 'ItemListing',
-
-	// _markFavorite: function(){
-	// 	// makes the clicked item go into the parse favorites places.
-
-	// 	var favModel = new FavoritesModel,
-	// 		items = this.props.listItem,
-	// 		title = items.title,
-	// 		itemId = items.listing_id,
-	// 		description = items.description
-
-	// 	favModel.set({
-	// 		'title': 'test' ,
-	// 		'item_id': 'test' ,
-	// 		'description': 'test'
-	// 	})
-	// 	this.props.favoritesData.add(favModel)
-	// 	console.log('attempting to save')
-	// 	favModel.save(null, {headers: favModel.parseHeaders}).then(function(){alert('boyee')})
-
-	// },
 
 	_changeLocation: function _changeLocation() {
 
@@ -253,7 +254,7 @@ var Router = Backbone.Router.extend({
 			dataType: 'jsonp',
 			processData: true
 		}).done(function () {
-			React.render(React.createElement(SingleItemView, { etsyItemData: self.ei }), document.getElementById("container"));
+			React.render(React.createElement(SingleItemView, { favoritesData: self.fc, etsyItemData: self.ei }), document.getElementById("container"));
 		});
 	},
 
